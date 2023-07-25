@@ -1,1 +1,1 @@
-# stepik_final_project
+Финальная работа для курса "Автоматизация тестирования с помощью Selenium и Python" на Stepik.
