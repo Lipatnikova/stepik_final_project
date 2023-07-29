@@ -35,3 +35,11 @@ class ProductPage(BasePage):
         assert actual_result == expected_result, \
             "The success message contains the product price"
 
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*locator.MESSAGE_SUCCESS), \
+            "Success message is presented, but should not be"
+
+    def should_be_disappearing_message(self):
+        assert self.is_disappeared(*locator.MESSAGE_SUCCESS), \
+            "The success message is present, but should be disappeared"
+
