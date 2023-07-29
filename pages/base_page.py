@@ -32,3 +32,9 @@ class BasePage:
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    def get_element_text(self, locator):
+        return self.browser.find_element(*locator).text
+
+    def button_click(self, locator):
+        self.browser.find_element(*locator).click()
