@@ -7,7 +7,7 @@ class BasePageLocators:
 
 
 class MainPageLocators:
-    pass
+    BUTTON_SEE_BASKET = (By.CSS_SELECTOR, ".hidden-xs > span > a")
 
 
 class LoginPageLocators:
@@ -23,3 +23,7 @@ class ProductPageLocators:
     MESSAGE_SUCCESS_PRICE_BASKET = (By.CSS_SELECTOR, ".in > div > p:nth-child(1)")
     PRICE_IN_MESSAGE = (By.CSS_SELECTOR, ".in > div > p:nth-child(1) > strong")
 
+
+class BasketPageLocators:
+    BASKET_ITEMS = (By.CLASS_NAME, "basket-items")
+    MESSAGE_BASKET_IS_EMPTY = (By.CSS_SELECTOR, "#content_inner > p")
