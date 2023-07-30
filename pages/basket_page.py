@@ -19,6 +19,10 @@ class BasketPage(BasePage):
         assert self.get_element_text(locator.MESSAGE_BASKET_IS_EMPTY) == "Your basket is empty. Continue shopping", \
             "The message basket is empty contains invalid content"
 
-    def items_in_basket_is_not_present(self):
-        assert self.is_not_element_present(*locator.BASKET_ITEMS)
+    def item_in_basket_is_not_present(self):
+        assert self.is_not_element_present(*locator.BASKET_ITEMS), \
+            "The basket contains a item, but expected empty basket"
 
+    def item_in_basket_is_present(self):
+        assert self.is_element_present(*locator.BASKET_ITEMS), \
+            "The basket does not contains a item"

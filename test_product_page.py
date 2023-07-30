@@ -1,5 +1,5 @@
-from pages.product_page import ProductPage
-from pages.basket_page import BasketPage
+from .pages.product_page import ProductPage
+from .pages.basket_page import BasketPage
 import pytest
 
 
@@ -75,5 +75,57 @@ class TestProductPage:
         page.open()
         page.click_button_see_basket()
         page_basket = BasketPage(browser, browser.current_url)
-        page_basket.items_in_basket_is_not_present()
+        page_basket.item_in_basket_is_not_present()
 
+    @pytest.mark.xfail
+    def test_negative_guest_cant_see_product_items_in_basket_opened_from_product_page(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"
+        page = ProductPage(browser, link)
+        page.open()
+        page.click_button_see_basket()
+        page_basket = BasketPage(browser, browser.current_url)
+        page_basket.item_in_basket_is_present()
+
+
+"""
+идеальным решением было бы везде, где мы работаем со страницей 
+продукта, создавать новый товар в нашем интернет-магазине перед 
+тестом и удалять по завершении теста. К сожалению, наш 
+интернет-магазин пока не имеет возможности создавать объекты 
+по API, но в идеальном мире мы бы написали вот такой тест-класс:
+
+@pytest.mark.login
+class TestLoginFromProductPage():
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self):
+        self.product = ProductFactory(title = "Best book created by robot")
+        # создаем по апи
+        self.link = self.product.link
+        yield
+        # после этого ключевого слова начинается teardown
+        # выполнится после каждого теста в классе
+        # удаляем те данные, которые мы создали 
+        self.product.delete()
+        
+
+    def test_guest_can_go_to_login_page_from_product_page(self, browser):
+        page = ProductPage(browser, self.link)
+        # дальше обычная реализация теста
+
+    def test_guest_should_see_login_link(self, browser):
+        page = ProductPage(browser, self.link)
+        # дальше обычная реализация теста
+        """
+
+
+@pytest.mark.add_to_basket
+class TestAddToBasketFromProductPage(object):
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self):
+        self.product = ProductFactory(title="Best book created by robot")
+        self.link = self.product.link
+        yield
+        self.product.delete()
+
+    def test_guest_cant_see_success_message(self, browser):
+        page = ProductPage(browser, self.link)
