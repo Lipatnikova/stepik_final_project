@@ -69,3 +69,11 @@ class TestProductPage:
         page_basket.message_basket_is_empty_is_present()
         page_basket.message_basket_is_empty_text_en()
 
+    def test_guest_cant_see_product_items_in_basket_opened_from_product_page(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"
+        page = ProductPage(browser, link)
+        page.open()
+        page.click_button_see_basket()
+        page_basket = BasketPage(browser, browser.current_url)
+        page_basket.items_in_basket_is_not_present()
+
