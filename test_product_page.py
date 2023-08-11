@@ -1,5 +1,6 @@
 from .pages.product_page import ProductPage
 from .pages.basket_page import BasketPage
+from .pages.login_page import LoginPage
 import pytest
 
 
@@ -87,45 +88,28 @@ class TestProductPage:
         page_basket.item_in_basket_is_present()
 
 
-"""
-идеальным решением было бы везде, где мы работаем со страницей 
-продукта, создавать новый товар в нашем интернет-магазине перед 
-тестом и удалять по завершении теста. К сожалению, наш 
-интернет-магазин пока не имеет возможности создавать объекты 
-по API, но в идеальном мире мы бы написали вот такой тест-класс:
+class TestUserAddToBasketFromProductPage:
+    def test_user_cant_see_success_message(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
+        page = LoginPage(browser, link)
+        page.open()
+        page.register_new_user(page.generate_email(), page.generate_password())
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"
+        page = ProductPage(browser, link)
+        page.open()
+        page.should_not_be_success_message()
 
-@pytest.mark.login
-class TestLoginFromProductPage():
-    @pytest.fixture(scope="function", autouse=True)
-    def setup(self):
-        self.product = ProductFactory(title = "Best book created by robot")
-        # создаем по апи
-        self.link = self.product.link
-        yield
-        # после этого ключевого слова начинается teardown
-        # выполнится после каждого теста в классе
-        # удаляем те данные, которые мы создали 
-        self.product.delete()
-        
-
-    def test_guest_can_go_to_login_page_from_product_page(self, browser):
-        page = ProductPage(browser, self.link)
-        # дальше обычная реализация теста
-
-    def test_guest_should_see_login_link(self, browser):
-        page = ProductPage(browser, self.link)
-        # дальше обычная реализация теста
-        """
+    def test_user_can_add_product_to_basket(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
+        page = LoginPage(browser, link)
+        page.open()
+        page.register_new_user(page.generate_email(), page.generate_password())
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
+        page = ProductPage(browser, link)
+        page.open()
+        page.click_button_add_to_basket()
+        page.solve_quiz_and_get_code()
+        page.should_be_message_about_adding()
+        page.should_be_message_about_adding_with_price()
 
 
-@pytest.mark.add_to_basket
-class TestAddToBasketFromProductPage(object):
-    @pytest.fixture(scope="function", autouse=True)
-    def setup(self):
-        self.product = ProductFactory(title="Best book created by robot")
-        self.link = self.product.link
-        yield
-        self.product.delete()
-
-    def test_guest_cant_see_success_message(self, browser):
-        page = ProductPage(browser, self.link)

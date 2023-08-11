@@ -4,6 +4,8 @@ from selenium.common.exceptions import NoSuchElementException, \
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import math
+import time
+import random
 
 
 class BasePage:
@@ -71,3 +73,18 @@ class BasePage:
 
     def click_button_see_basket(self):
         self.button_click(BasePageLocators.BUTTON_SEE_BASKET)
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
+
+    def send_keys_to_input(self, locator, key):
+        self.browser.find_element(*locator).send_keys(key)
+
+    def generate_email(self):
+        email = str(time.time()) + "@fakemail.org"
+        return email
+
+    def generate_password(self):
+        password = random.randint(1000, 100000)
+        return password
