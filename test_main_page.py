@@ -26,7 +26,7 @@ class TestMainPage:
         page_basket.item_in_basket_is_not_present()
 
 
-@pytest.mark.login_guest   # оманда для запуска: pytest -m login_guest
+@pytest.mark.login_guest   # Command: pytest -m login_guest test_main_page.py
 class TestLoginFromMainPage:
     def test_guest_can_go_to_login_page(self, browser):
         page = MainPage(browser, link)

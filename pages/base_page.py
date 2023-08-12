@@ -15,7 +15,6 @@ class BasePage:
         self.browser.implicitly_wait(10)
 
     def open(self):
-        """This method opens a browser by the provided link"""
         self.browser.get(self.url)
 
     def is_element_present(self, how, what):
@@ -86,5 +85,5 @@ class BasePage:
         return email
 
     def generate_password(self):
-        password = random.randint(1000, 100000)
+        password = random.randint(100000000, 10000000000000)
         return password

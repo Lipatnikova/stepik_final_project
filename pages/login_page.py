@@ -22,11 +22,3 @@ class LoginPage(BasePage):
         self.send_keys_to_input(locator.PASSWORD, password)
         self.send_keys_to_input(locator.CONFIRM_PASSWORD, password)
         self.button_click(locator.BUTTON_REGISTER)
-
-
-class TestLoginPage:
-    def test_should_be_login_page(self, browser):
-        link = "http://selenium1py.pythonanywhere.com/ru/accounts/login/"
-        page = LoginPage(browser, link)
-        page.open()
-        page.should_be_login_page()
